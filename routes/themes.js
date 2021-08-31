@@ -6,7 +6,7 @@ const Theme = require('../models/Theme');
 router.get('/', async (req, res) => {     
     try{
         const themes = await Theme.find(
-            req.query.title ? {"title": {"$in" : req.query.title}} : {},
+            req.query.title ? {"title":  {"$regex": req.query.title, "$options": 'i'}} : {},
         )
         .select({"title": 1, "_id":1});
         res.json(themes);
@@ -29,8 +29,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     const theme = new Theme({
         title: req.body.title,
-        description: req.body.description,
-        document: req.body.document    
+        description: req.body.description    
     });
     try{
         const savedTheme = await theme.save();
@@ -93,10 +92,6 @@ module.exports = router;
  *           type: string
  *           description: The description of the theme
  *           example: It introduces Gmail, how to create an account, etc.
- *         document:
- *           type: string
- *           description: The url to the document of the theme
- *           example: ..\Travail\gmail.pdf
  *     ThemeDetails:
  *       allOf:
  *         - type: object
@@ -116,6 +111,12 @@ module.exports = router;
  *     description: Retrieve a list of themes in the system
  *     tags:
  *       - themes
+ *     parameters:
+ *       - in: query
+ *         name: title
+ *         schema: 
+ *           type: string
+ *         description: The title to filter the result with
  *     responses:
  *       200:
  *         description: A list of themes
