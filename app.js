@@ -8,7 +8,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDefinition = {
   openapi: '3.0.0',
   info:{
-    title: 'Express API with Swagger',
+    title: 'Extracurricular courses',
     version: '1.0.0',
     description: 'This is a REST API application made with Node.js, Express.js and MongoDB and documented with Swagger'
   },
